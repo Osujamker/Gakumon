@@ -1,0 +1,57 @@
+.profile
+  display: flex
+  align-items: center
+  color: white
+  height: 200px
+  min-height: 200px
+  background-color: rgba(34,22,52,0.8)
+  background-blend-mode: soft-light
+  .profile-header
+    display: flex
+    justify-content: center
+    .header-info
+      display: flex
+      flex-direction: row
+      .info-image
+        display: flex
+        align-items: center
+        margin-right: 50px
+        img
+          max-height: 150px
+          max-width: 150px
+      .info-text
+        display: flex
+        flex-direction: column
+        margin-right: 100px
+        h1
+          font-size: 56px
+          font-weight: 600
+        h2
+          font-size: 16px
+          font-weight: 300
+        .text-level
+          &:before
+            content: 'Level: '
+        .text-exp
+          &:before
+            content: 'Exp: '
+        .text-completed
+          &:before
+            content: 'Completed: '
+    .header-buttons
+      display: flex
+      flex-direction: column
+      justify-content: center
+      padding-top: 15px
+      button
+        width: 230px
+        height: 50px
+        margin-bottom: 15px
+        border-radius: 3px
+        border: 1px solid transparent
+        background-color: rgba(255, 255, 255, 0.1)
+        color: white
+        transition: all 0.2s ease
+        &:hover
+          background-color: rgba(255, 255, 255, 0.8)
+          color: black

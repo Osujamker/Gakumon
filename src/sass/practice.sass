@@ -1,0 +1,128 @@
+#katakana,
+#hiragana
+  color: white
+  width: 1200px
+  height: 700px!important
+  display: flex
+  flex-direction: column
+  height: 100%
+  background-color: #4d3576
+  padding: 50px 0 0 100px
+  .title
+    h2
+      font-weight: 400
+      font-size: 36px
+    h3
+      font-weight: 300
+      font-size: 24px
+  .button-container
+    width: 85%
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    .help
+      button
+        width: 100%
+        color: #4d3576
+        border: none
+        background-color: white
+        height: 80px
+        border-radius: 3px
+        font-size: 24px
+        transition: all .2s
+        &:hover
+          color: white
+          background-color: #4d3576
+          border: 2px solid white
+    .buttons
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      button
+        transition: all .2s ease
+        color: #4d3576
+        border-radius: 3px
+        background-color: white
+        border: none
+        height: 200px
+        width: 250px
+        outline: none
+        .script
+          font-size: 100px
+          font-weight: 800
+        .system
+          font-size: 20px
+          font-weight: 400
+        &:hover
+          color: white
+          background-color: #4d3576
+          border: 2px solid white
+        &:active
+@media screen and (max-width: 1200px)
+  #hiragana,
+  #katakana
+    padding: 0 0 0 0
+    align-items: center
+    .title
+      margin-top: 50px
+    div
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      padding: 0 0 0 0
+      width: 100%
+    .button-container
+      width: 90%
+      .buttons
+        justify-content: space-around
+        button
+          width: 250px
+          .script
+            font-size: 100px
+
+@media screen and (max-width: 992px)
+  #hiragana,
+  #katakana
+    padding: 0 0 0 0
+    align-items: center
+    .title
+      margin-top: 50px
+    div
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      padding: 0 0 0 0
+      width: 100%
+    .button-container
+      width: 90%
+      .buttons
+        justify-content: space-around
+        button
+          width: 200px
+          .script
+            font-size: 72px
+@media screen and (max-width: 768px)
+  #hiragana,
+  #katakana
+    padding: 0 0 0 0
+    align-items: center
+    .title
+      margin-top: 50px
+    div
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      padding: 0 0 0 0
+      width: 100%
+    .button-container
+      width: 90%
+      .buttons
+        justify-content: space-around
+        button
+          width: 150px
+          .script
+            font-size: 64px

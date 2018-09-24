@@ -1,0 +1,39 @@
+.Learn
+  width: 100%
+  height: 100%
+  color: white
+  display: flex
+  flex-direction: column
+.news
+  display: flex
+  justify-content: space-between
+  flex-flow: row wrap
+  .article
+    display: flex
+    flex-flow: column nowrap
+    justify-content: space-between
+    background-color: rgba(34,38,40,1)
+    background-image: url(../images/header.jpg);
+    background-blend-mode: soft-light
+    height: 250px
+    width: 320px
+    margin-bottom: 30px
+    transition: all 0.2s
+    &:hover
+      transform: scale(1.1)
+    .title
+      margin: 20px 20px 0 20px
+      font-size: 24px
+      font-weight: 300
+      padding: 0 0 0 0
+    .read
+      margin: 0 0 0 0
+      color: white
+      border: none
+      height: 50px
+      background-color: #4d3576
+      transition: all 0.2s
+      &:hover
+        margin: 10px
+        background-color: white
+        color: #4d3576

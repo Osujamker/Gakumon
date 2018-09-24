@@ -1,0 +1,94 @@
+#hub
+  color: white
+  width: 900px
+  height: 700px!important
+  display: flex
+  flex-direction: column
+  height: 100%
+  background-color: #4d3576
+  padding: 50px 0 0 100px
+  .title
+    width: 100%
+    h2
+      font-weight: 400
+      font-size: 36px
+    h3
+      font-weight: 300
+      font-size: 24px
+  .button-container
+    width: 85%
+    height: 100%
+    .help
+      margin: 20px 0 0 0
+      display: flex
+      justify-content: center
+      align-items: center
+      h3
+        font-weight: 100
+        font-size: 24px
+  #buttons
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    margin-top: 50px
+    button
+      font-weight: 500
+      transition: all .2s ease
+      color: #4d3576
+      font-size: 42px
+      border-radius: 3px
+      background-color: white
+      border: none
+      height: 300px
+      width: 300px
+      outline: none
+      .script
+        font-size: 128px
+        font-weight: 800
+      .system
+        font-size: 36px
+        font-weight: 600
+      &:hover
+        color: white
+        background-color: #4d3576
+        border: 2px solid white
+      &:active
+@media screen and (max-width: 992px)
+  #hub,
+    padding: 0 0 0 0
+    align-items: center
+    .title
+      margin-top: 50px
+    div
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      padding: 0 0 0 0
+      width: 100%
+    #button-container
+      width: 90%
+      .buttons
+        justify-content: space-around
+        button
+          width: 200px
+          .script
+            font-size: 72px
+@media screen and (max-width: 768px)
+  #hub
+    padding: 0 0 0 0
+    align-items: center
+    div
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      padding: 0 0 0 0
+      width: 100%
+    .button-container
+      width: 100%
+      #buttons
+        justify-content: space-around
+        button
+          width: 250px
+
