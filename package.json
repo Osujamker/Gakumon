@@ -66,7 +66,7 @@
   "homepage": "./",
   "scripts": {
     "start": "nf start client-dev,server",
-    "start-production": "npm run client-production && nf start server,react-scripts",
+    "start-production": "npm run client-production && nf start server,react",
     "react": "react-scripts start --mode development",
     "client-dev": "webpack-dev-server --mode development",
     "client-production": "webpack --mode production",
