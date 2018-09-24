@@ -13,10 +13,8 @@ const Promise = require("bluebird");
 const isEmpty = require('is-empty');
 const storage = multer.diskStorage({
   destination: (req,file,cb) => {
-    console.log(req.body);
     if (req.session.userId) {
       if (file.fieldname == 'background') {
-        console.log('background');
         cb(null, 'src/images/backgrounds/')
       }
       else if (file.fieldname == 'avatar') {
@@ -26,11 +24,9 @@ const storage = multer.diskStorage({
     }
   },
   filename: (req,file,cb) => {
-    console.log(req.body);
     if (req.session.userId) {
       let image = req.session.userId + path.extname(file.originalname);
       if (file.fieldname == 'background') {
-        console.log('background');
         User.findByIdAndUpdate(req.session.userId, {
           $set: {
             background: image
@@ -45,7 +41,6 @@ const storage = multer.diskStorage({
         });
       }
       else if (file.fieldname == 'avatar') {
-        console.log('avatar');
         User.findByIdAndUpdate(req.session.userId, {
           $set: {
             avatar: image
@@ -159,8 +154,6 @@ app.get('/api/users', (req, res, next) => {
   });
 });
 app.post('/api/user/practice', (req, res) => {
-  console.log(req.session.userId);
-  console.log(req.body);
   if (req.session.userId) {
     let difficultyMul = 1;
     switch(req.body.difficulty) {
@@ -176,7 +169,6 @@ app.post('/api/user/practice', (req, res) => {
         break;
     }
     let exp = ((req.body.correct * difficultyMul) / Math.max(1, req.body.incorrect)) * 10;
-    console.log(exp);
     let user = User.findById(req.session.userId);
     User.findById(req.session.userId, (err, user) => {
       let expToLevel = user.level * 100;
@@ -226,7 +218,6 @@ app.post('/api/user/getFriends', (req, res) => {
   })
 });
 app.post('/api/user/messages', (req, res) => {
-  console.log(req.body);
   if (req.session.userId && req.body.message && req.body.user) {
     let message = new Message({
       user: req.session.userId,
@@ -241,7 +232,7 @@ app.post('/api/user/messages', (req, res) => {
       }
     }, (err, success) => {
       if(err) console.log(err);
-      if(success) console.log('Success!');
+      if(success) console.log('Message sent!');
     });
   }
 });;
@@ -264,7 +255,6 @@ app.post('/api/user/friends', (req, res) => {
   }
 });
 isUsernameAvailable = (username) => {
-  console.log(username);
   if (User.findOne({username}, (err, user) => {
     if (user) {
       return false;
@@ -328,7 +318,7 @@ app.post('/api/login', (req, res, next) => {
     if (error || !user) {
       var err = new Error('Wrong username or password.');
       err.status = 401;
-      return next(err);
+      return res.send({success: false});
     } else {
       req.session.userId = user._id;
       return res.send({success: true});

@@ -18,23 +18,27 @@ export default class ProfileHeader extends Component {
     this.setState({showAvatarForm: !this.state.showAvatarForm});
   }
   onBackgroundChange = (e) => {
+    e.preventDefault();
     let formData = new FormData();
     formData.append('background', e.target.files[0]);
     this.setState({background: formData});
   }
   onAvatarChange = (e) => {
+    e.preventDefault();
     let formData = new FormData();
     formData.append('avatar', e.target.files[0]);
     this.setState({avatar: formData});
   }
-  handleBackgroundChange = () => {
+  handleBackgroundChange = (e) => {
+    e.preventDefault();
     fetch('/api/upload', {
       method: 'POST',
       body: this.state.background
-    })
+    });
     this.backgroundToggle();
   }
-  handleAvatarChange = () => {
+  handleAvatarChange = (e) => {
+    e.preventDefault();
     fetch('/api/upload', {
       method: 'POST',
       body: this.state.avatar
@@ -96,7 +100,7 @@ export default class ProfileHeader extends Component {
       },
       body: JSON.stringify({userId: user._id})
     })
-    .then(response => response.json())
+    .then(response => response.json()).catch()
     .then(response => console.log(response));
   }
 }
@@ -136,7 +140,7 @@ class RenderUser extends React.Component {
           :
           <div className="header-buttons">
             <button onClick={this.props.onSendMessage}>Send Message</button>
-            <button onClick={() => this.onAddFriend(this.props.userInfo.user)}>Add friend</button>
+            <button onClick={() => this.props.onAddFriend(this.props.userInfo.user)}>Add friend</button>
             </div>
           }
         </div>

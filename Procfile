@@ -1,4 +1,4 @@
-client-dev: yarn client-dev
-client-production: yarn client-production
-server: yarn server
-react-scripts: yarn react-scripts
+client-dev: npm run client-dev
+client-production: npm run client-production
+server: npm run server
+react-scripts: npm run react-scripts

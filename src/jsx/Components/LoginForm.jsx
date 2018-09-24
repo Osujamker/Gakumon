@@ -72,6 +72,7 @@ export default class LoginForm extends Component {
       })
       .then(response => response.json())
       .then(res => {
+        console.log(res);
         if(res.success) {
           this.setState({isLoggedIn: true});
         }

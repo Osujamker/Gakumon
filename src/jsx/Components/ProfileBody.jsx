@@ -40,8 +40,6 @@ export default class ProfileBody extends Component {
       },
       body: JSON.stringify({message: e.target.message.value, user: this.props.userInfo.user._id})
     })
-    .then(request => request.json())
-    .then(request => console.log());
   }
   getMessages = () => {
     if (this.props.userInfo) {
