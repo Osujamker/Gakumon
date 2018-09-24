@@ -1,5 +1,5 @@
 ## Инсталяция
-1.'git clone https://github.com/Osujamker/Gakumon.git'
+1.`git clone https://github.com/Osujamker/Gakumon.git`
 
 2.`npm install` или `yarn install`
 
