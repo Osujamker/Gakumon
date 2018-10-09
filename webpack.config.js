@@ -1,8 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 module.exports = {
+  mode: 'production',
   resolve: {
     alias: {
       images: path.resolve(__dirname, 'src/images'),
@@ -10,6 +14,11 @@ module.exports = {
       css: path.resolve(__dirname, 'src/css'),
       sass: path.resolve(__dirname, 'src/sass')
     }
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin()
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -20,6 +29,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
     }),
   ],
   module: {
@@ -63,14 +75,15 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    port: 3000,
     proxy : {
       "/api": "http://localhost:5000"
-    }
+    },
+    disableHostCheck: true,
+    port: 3000
   },
   output: {
-    path: path.resolve('./public'),
-    filename: 'index_bundle.js',
+    path: path.resolve('./dist'),
+    filename: '[name].bundle.js',
     publicPath: '/',
   }
 };

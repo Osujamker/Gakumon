@@ -1,8 +1,8 @@
 {
   "name": "Gakumon",
   "version": "0.1.0",
+  "proxy": "http://localhost:5000/",
   "private": true,
-  "proxy": "http://localhost:5000",
   "dependencies": {
     "@babel/core": "^7.0.1",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -17,6 +17,7 @@
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.3",
+    "clean-webpack-plugin": "^0.1.19",
     "connect-ensure-login": "^0.1.1",
     "css-file-loader": "^1.4.3",
     "css-loader": "^1.0.0",
@@ -46,6 +47,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
+    "query-string": "^5.1.1",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-modal": "^3.5.1",
@@ -57,6 +59,7 @@
     "resolve-url-loader": "^2.3.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
     "wanakana": "^4.0.2",
     "webpack": "^4.18.0",
@@ -67,9 +70,10 @@
   "scripts": {
     "start": "nf start client-dev,server",
     "start-production": "npm run client-production && nf start server,react",
-    "react": "react-scripts start --mode production",
+    "react": "react-scripts start --mode=production",
     "client-dev": "webpack-dev-server --mode development",
     "client-production": "webpack --mode production",
+    "start-prod": "react-server start",
     "server": "nodemon src/server.js"
   }
 }

@@ -64,7 +64,7 @@ export default class SettingsForm extends Component {
       body: JSON.stringify(credentials),
       headers: {
         "Content-Type": "application/json"
-      }
+      },
     })
     .then(response => response.json())
     .then(response => console.log(response));

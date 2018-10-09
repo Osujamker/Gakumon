@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import {Header, ProfileBody, ProfileHeader} from '../Components/Index.jsx';
+import queryString from 'query-string'
 
 export default class User extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLoading: true,
     }
   }
   getUser = () => {
+    const values = queryString.parse(this.props.location.search);
     let promise = fetch("/api/user", {
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({username: this.props.match.params.username})
+      body: JSON.stringify({username: values.username})
     })
     .then(response => response.json())
     .then(res => {

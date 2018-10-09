@@ -8,9 +8,12 @@ export default class Profile extends Component {
     }
   }
   isLoggedIn = () => {
-    fetch("/api/isloggedin")
+    fetch("/api/isloggedin", {
+      credentials: 'include'
+    })
     .then(response => response.json())
     .then(res => {
+      console.log(res);
       if (!res.username){
         this.props.history.push('/registration');
       }

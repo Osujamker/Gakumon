@@ -69,6 +69,7 @@ export default class LoginForm extends Component {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: 'include'
       })
       .then(response => response.json())
       .then(res => {

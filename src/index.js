@@ -6,7 +6,7 @@ ReactDOM.render(
   <Router>
     <div id="root">
       <Route exact path="/" component={Profile}/>
-      <Route path="/user/:username" component={User}/>
+      <Route path="/user" component={User}/>
       <Route exact path="/users" component={Users}/>
       <Route exact path="/practice" component={Practice}/>
       <Route exact path="/learn" component={Learn}/>

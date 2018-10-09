@@ -24,7 +24,9 @@ export default class Settings extends Component {
     return <Header/>;
   }
   getUser = () => {
-    fetch('/api/isloggedin')
+    fetch('/api/isloggedin', {
+      credentials: 'include'
+    })
     .then(response => response.json())
     .then(res => {
       if (!res.username) this.props.history.push('/registration');
