@@ -16,7 +16,6 @@ export default class Header extends Component {
         <Link to="/"><h3>Home</h3></Link>
         <Link to="/practice"><h3>Practice</h3></Link>
         <Link to="/learn"><h3>Learn</h3></Link>
-        <Link to="/users"><h3>Users</h3></Link>
         <Link to="/settings"><h3>Settings</h3></Link>
         <Link to="/api/logout" onClick={this.handleClick}><h3>Logout</h3></Link>
       </header>

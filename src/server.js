@@ -14,12 +14,21 @@ const isEmpty = require('is-empty');
 const storage = multer.diskStorage({
   destination: (req,file,cb) => {
     if (req.session.userId) {
-      if (file.fieldname == 'background') {
-        cb(null, 'src/images/backgrounds/')
+      if (process.env.NODE_ENV == 'production') {
+        if (file.fieldname == 'background') {
+          cb(null, 'dist/src/images/backgrounds/')
+        }
+        else if (file.fieldname == 'avatar') {
+          cb(null, 'dist/src/images/avatars/')
+        }
       }
-      else if (file.fieldname == 'avatar') {
-        console.log('avatar');
-        cb(null, 'src/images/avatars/')
+      else {
+        if (file.fieldname == 'background') {
+          cb(null, 'src/images/backgrounds/')
+        }
+        else if (file.fieldname == 'avatar') {
+          cb(null, 'src/images/avatars/')
+        }
       }
     }
   },
@@ -92,7 +101,7 @@ let news = [
 ];
 news.map((article, index) => {
   article.id = index;
-})
+});
 app.get('/api/news', (req, res) => {
   res.send(news);
 });
@@ -187,19 +196,22 @@ app.post('/api/user/practice', (req, res) => {
   }
 });
 app.post('/api/user/getMessages', (req, res) => {
-  let messages = [];
+  let messages;
   User.findById(req.body.user)
   .then((user) => {
-    return Promise.map(user.messages, (message) => {
+    return Promise.map(user.messages, (message, index) => {
       return Message.findById(message)
       .populate('user', 'username')
       .exec()
       .then((message) => {
-        messages.push(message);
+        return message;
       })
     })
+    .then((message) => {
+      messages = message;
+    })
   })
-  .then(() => {
+  .then((message) => {
     res.send(messages);
   });
 });
@@ -233,6 +245,7 @@ app.post('/api/user/messages', (req, res) => {
     }, (err, success) => {
       if(err) console.log(err);
       if(success) console.log('Message sent!');
+      res.send({messages: {message: req.body.message, username: req.session.userId}});
     });
   }
 });;
@@ -263,7 +276,11 @@ isUsernameAvailable = (username) => {
   return true;
 }
 app.post('/api/upload', upload.any(), (req,res) => {
-
+  if (req.session) {
+    User.findById(req.session.userId, (err, user) => {
+      res.send({background: user.background, avatar: user.avatar});
+    });
+  }
 });
 app.post('/api/settings', (req, res) => {
   let credentials = req.body;
@@ -308,12 +325,12 @@ app.post('/api/registration', (req, res, next) => {
       if (err) {
         return next(err)
       } else {
-        return res.send({success: true});
+        authenticate(req, res);
       }
     });
   }
 });
-app.post('/api/login', (req, res, next) => {
+authenticate = (req, res) => {
   User.authenticate(req.body.username, req.body.password, function (error, user) {
     if (error || !user) {
       var err = new Error('Wrong username or password.');
@@ -323,7 +340,11 @@ app.post('/api/login', (req, res, next) => {
       req.session.userId = user._id;
       return res.send({success: true});
     }
-})});
+  });
+}
+app.post('/api/login', (req, res, next) => {
+  authenticate(req, res);
+});
 app.post('/api/user', (req, res, next) => {
   if (req.body.username) {
     User.findOne({username: req.body.username})
@@ -361,9 +382,10 @@ app.post('/api/user', (req, res, next) => {
   }
 });
 if(process.env.NODE_ENV === 'production') {
+  console.log(path.join(__dirname, '../dist/'));
   app.use(express.static(path.join(__dirname, '../dist/')));
   app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../dist/', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
   });
 }
 app.listen(5000);

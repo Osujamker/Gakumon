@@ -8,7 +8,9 @@ export default class ProfileHeader extends Component {
     this.state = {
       showBackgroundForm: false,
       showAvatarForm: false,
-      showSendMessageModal: false
+      showSendMessageModal: false,
+      updateImages: false,
+      userInfo: props.userInfo,
     }
     RenderUser = RenderUser.bind(this);
   }
@@ -35,8 +37,16 @@ export default class ProfileHeader extends Component {
     fetch('/api/upload', {
       method: 'POST',
       body: this.state.background
+    })
+    .then(response => response.json())
+    .then(response => {
+      this.setState((prevState) => {
+        let userInfo = prevState.userInfo;
+        console.log(userInfo);
+        userInfo.user.background = response.background;
+        return {updateImages: true, showBackgroundForm: false, userInfo}
+      })
     });
-    this.backgroundToggle();
   }
   handleAvatarChange = (e) => {
     e.preventDefault();
@@ -44,7 +54,15 @@ export default class ProfileHeader extends Component {
       method: 'POST',
       body: this.state.avatar
     })
-    this.avatarToggle();
+    .then(response => response.json())
+    .then(response => {
+      this.setState((prevState) => {
+        let userInfo = prevState.userInfo;
+        console.log(userInfo);
+        userInfo.user.avatar = response.avatar;
+        return {updateImages: true, showAvatarForm: false, userInfo}
+      })
+    });
   }
   sendMessageToogle = (e) => {
     this.setState({showSendMessageModal: !this.state.showSendMessageModal});
@@ -54,13 +72,12 @@ export default class ProfileHeader extends Component {
   handleSendMessage = (e) => {
     fetch('/api/user/messages', {
       method: 'POST',
-      body: JSON.stringify({message: e.target.text.value, user: this.props.userInfo.user}),
+      body: JSON.stringify({message: e.target.text.value, user: this.state.userInfo.user}),
       headers: {
         'Content-Type': 'application/json'
       }
     });
     this.setState({showSendMessageModal: !this.state.showSendMessageModal});
-    this.forceUpdate();
   }
   sendMessageModal = () => {
     return (
@@ -118,10 +135,11 @@ export default class ProfileHeader extends Component {
         {this.sendMessageModal()}
         {this.changeAvatarModal()}
         {this.changeBackgroundModal()}
-        { this.props.userInfo &&
-          <RenderUser userInfo={this.props.userInfo} backgroundToggle={this.backgroundToggle} avatarToggle={this.avatarToggle}
-          onSendMessage={this.onSendMessage} onAddFriend={this.onAddFriend} sendMessageToggle={this.sendMessageToogle}/>
+        { this.state.userInfo &&
+          <RenderUser userInfo={this.state.userInfo} backgroundToggle={this.backgroundToggle} avatarToggle={this.avatarToggle}
+          onSendMessage={this.onSendMessage} onAddFriend={this.onAddFriend} sendMessageToggle={this.sendMessageToogle} updateImages={this.state.updateImages}/>
         }
+        {this.state.updateImages && this.setState({updateImages: false})}
       </React.Fragment>
     )
   }
@@ -143,43 +161,38 @@ export default class ProfileHeader extends Component {
 class RenderUser extends React.Component {
   constructor(props) {
     super(props);
-    
-    let backgroundStyles = {
-      backgroundImage: this.getUserBackground(),
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center center'
-    }
+    console.log(this.props.userInfo);
     this.state = {
-      backgroundStyles
+      cache: '',
+      backgroundStyles: {
+        backgroundImage: `url(src/images/backgrounds/${this.props.userInfo.user.background})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center'
+      },
     }
   }
-  getUserBackground = () => {
-    let avatar;
-    try {
-      avatar = require(`images/backgrounds/${this.props.userInfo.user.background}`);
-    } catch (error) {
-      avatar = require(`images/backgrounds/background-default.png`);
+  generateCache = () => {
+    if (this.props.updateImages) {
+      this.setState({
+        cache: `?${new Date().getTime()}`,
+        backgroundStyles: {
+          backgroundImage: `url(src/images/backgrounds/${this.props.userInfo.user.background}?${new Date().getTime()})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center'
+        },
+      })
     }
-    return `url(${avatar})`;
-  }
-  getUserAvatar = () => {
-    let avatar;
-    try {
-      avatar = require(`images/avatars/${this.props.userInfo.user.avatar}`)
-    } catch (error) {
-      avatar = require(`images/avatars/default.png`);
-      console.warn(`${this.props.userInfo.user.avatar} is missing from images/avatars folder!`);
-    }
-    return <img src={avatar}></img>;
   }
   render() {
+    this.generateCache();
     return (
       <div className="container-fluid profile" style={this.state.backgroundStyles}>
         <div className="container profile-header">
           <div className="header-info">
             <div className="info-image">
-              {this.getUserAvatar()}
+              <img src={`src/images/avatars/${this.props.userInfo.user.avatar}${this.state.cache}`}></img>
             </div>
             <div className="info-text">
               <h1 className="text-username">{this.props.userInfo.user.username}</h1>

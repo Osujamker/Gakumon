@@ -20,26 +20,26 @@ export default class ProfileBody extends Component {
             <SubmitForm onClick={this.onClickHandle}/>
           </div>
         </div>
-        <div className="body-extensions">
-          <div className="extensions-friends">
-            <div className="friends-container containers">
-              <h3 className="friends-title titles">Friends</h3>
-            </div>
-          </div>
-        </div>
       </div>
     )
   }
 
   onClickHandle = (e) => {
+    e.preventDefault();
+    let message = e.target.message.value;
+    e.target.message.value = '';
     fetch('/api/user/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({message: e.target.message.value, user: this.props.userInfo.user._id})
+      body: JSON.stringify({message, user: this.props.userInfo.user._id})
     })
+    .then(request => request.json())
+    .then(request => {
+      this.getMessages();
+    });
   }
   getMessages = () => {
     if (this.props.userInfo) {
@@ -54,7 +54,6 @@ export default class ProfileBody extends Component {
         })
         .then(request => request.json())
         .then(request => {
-          //console.log(request);
           this.setState({isLoading: false, messages: request});
         });
       }
@@ -71,11 +70,7 @@ export default class ProfileBody extends Component {
             'Accept': 'application/json',
           },
           body: JSON.stringify({user: this.props.userInfo.user.friends})
-        })
-        .then(request => request.json())
-        .then(request => {
-          //console.log(request);
-        })
+        });
       }
     }
   }

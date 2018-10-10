@@ -6,7 +6,6 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 module.exports = {
-  mode: 'production',
   resolve: {
     alias: {
       images: path.resolve(__dirname, 'src/images'),
@@ -57,7 +56,7 @@ module.exports = {
       {
         test: /\.(jpg|png|gif|svg)$/i,
         use: [{
-          loader: 'file-loader',
+          loader: 'url-loader',
           options: {
             name: '[path][name].[ext]',
           }

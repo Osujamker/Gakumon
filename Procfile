@@ -1,5 +1,3 @@
-client-dev: npm run client-dev
-client-production: npm run client-production
-server-production: npm run server-production
-server-dev: npm run server-dev
-react: npm run react
+server-production: cross-env NODE_ENV=production npm run server
+server-dev: cross-env NODE_ENV=dev npm run server
+build-dev: npm run build-dev
