@@ -92,16 +92,21 @@ class DisplayMessages extends React.Component {
   render() {
     return (
       this.props.messages.map((message, index) => {
-        return (
-        <div className="message" key={index}>
-          <div className="info">
-            <h2>{message.user.username}</h2>
-          </div>
-          <div className="text">
-            <h3>{message.message}</h3>
-          </div>
-        </div>
-        );
+        try {
+          return (
+            <div className="message" key={index}>
+              <div className="info">
+                <h2>{message.user.username}</h2>
+              </div>
+              <div className="text">
+                <h3>{message.message}</h3>
+              </div>
+            </div>
+            );
+        }
+        catch (error) {
+          return null;
+        }
       })
     );
   }
